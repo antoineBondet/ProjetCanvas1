@@ -3,7 +3,7 @@ import { drawCircleImmediat } from "./utils.js";
 
 export default class Player extends ObjectGraphique {
     constructor(x, y) {
-        super(x, y, 50, 50);
+        super(x, y, 155, 120);
         this.vitesseX = 0;
         this.vitesseY = 0;
         this.couleur = "pink";
@@ -12,9 +12,7 @@ export default class Player extends ObjectGraphique {
    
     draw(ctx) {
         ctx.save();
-        //ctx.scale(0.5, 0.5);
         ctx.translate(this.x, this.y);
-        
         ctx.rotate(this.angle);
         
         this.drawTete(ctx);
@@ -36,15 +34,15 @@ export default class Player extends ObjectGraphique {
     drawTete(ctx) {
         ctx.save();
         ctx.fillStyle = "grey";
-        ctx.fillRect(0, 0, 75, 18.75);
+        ctx.fillRect(-3.75, -22.5, 75, 18.75);
         ctx.restore();
     }
 
     drawYeux(ctx) {
         ctx.save();
-        drawCircleImmediat(ctx, 10, 10, 7, "black");
-        drawCircleImmediat(ctx, 10, 10, 5, "white");
-        drawCircleImmediat(ctx, 10, 10, 3, "black");
+        drawCircleImmediat(ctx, 6.25, -12.5, 7, "black");
+        drawCircleImmediat(ctx, 6.25, -12.5, 5, "white");
+        drawCircleImmediat(ctx, 6.25, -12.5, 3, "black");
         ctx.restore();
     }
 
@@ -52,18 +50,18 @@ export default class Player extends ObjectGraphique {
         ctx.save();
         ctx.fillStyle = "black";
         ctx.beginPath();
-        ctx.moveTo(-86.25, 33.75);
-        ctx.lineTo(-131.25, 86.25);
-        ctx.lineTo(-131.25, 22.5);
+        ctx.moveTo(-90, 11.25);
+        ctx.lineTo(-135, 63.75);
+        ctx.lineTo(-135, 0);
         ctx.fill();
-        ctx.fillRect(-131.25, 22.5, 22.5, 7.5);
+        ctx.fillRect(-135, 0, 22.5, 7.5);
         ctx.restore();
     }
 
     drawCorps(ctx) {
         ctx.save();
         ctx.fillStyle = "grey";
-        ctx.fillRect(3.75, 22.5, -112.5, 37.5);
+        ctx.fillRect(0, 0, -112.5, 37.5);
         this.drawCrainieres(ctx);
         ctx.restore();
     }
@@ -72,9 +70,9 @@ export default class Player extends ObjectGraphique {
         ctx.save();
         ctx.fillStyle = "black";
         ctx.beginPath();
-        ctx.moveTo(-15, 22.5);
-        ctx.lineTo(0, 3);
-        ctx.lineTo(0, 22.5);
+        ctx.moveTo(-18.75, 0);
+        ctx.lineTo(-3.75, -19.5);
+        ctx.lineTo(-3.75, 0);
         ctx.fill();
         ctx.restore();
     }
@@ -83,14 +81,14 @@ export default class Player extends ObjectGraphique {
         ctx.save();
         ctx.fillStyle = "black";
         ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.lineTo(7.5, -15);
-        ctx.lineTo(11.25, 0);
+        ctx.moveTo(-3.75, -22.5);
+        ctx.lineTo(3.75, -37.5);
+        ctx.lineTo(7.5, -22.5);
         ctx.fill();
         ctx.beginPath();
-        ctx.moveTo(30, 0);
-        ctx.lineTo(22.5, -15);
-        ctx.lineTo(18., 0);
+        ctx.moveTo(26.25, -22.5);
+        ctx.lineTo(18.75, -37.5);
+        ctx.lineTo(15, -22.5);
         ctx.fill();
         ctx.restore();
     }
@@ -99,10 +97,10 @@ export default class Player extends ObjectGraphique {
         ctx.save();
         ctx.fillStyle = "black";
         ctx.beginPath();
-        ctx.moveTo(0, 18.75);
-        ctx.rotate(0.3+ Math.sin(Date.now() * 0.01) * 0.1);
+        ctx.moveTo(-3.75, -3.75);
+        ctx.rotate(0.3 + Math.sin(Date.now() * 0.01) * 0.1);
         ctx.fillStyle = "grey";
-        ctx.fillRect(3.75, 7.5, 75, 18.75);
+        ctx.fillRect(-3.75, -15, 75, 18.75);
         this.drawDents(ctx);
         ctx.restore();
     }
@@ -112,19 +110,19 @@ export default class Player extends ObjectGraphique {
         ctx.rotate(-0.2 + Math.sin(Date.now() * 0.001) * 0.01);
         ctx.fillStyle = "white";
         ctx.beginPath();
-        ctx.moveTo(52.5, 18.75);
-        ctx.lineTo(40.5, 15);
-        ctx.lineTo(48.75, 7.5);
+        ctx.moveTo(48.75, 0);
+        ctx.lineTo(36.75, -3.75);
+        ctx.lineTo(45, -11.25);
         ctx.fill();
         ctx.beginPath();
-        ctx.moveTo(52.5, 18.75);
-        ctx.lineTo(60, 7.5);
-        ctx.lineTo(63.75, 20.625);
+        ctx.moveTo(48.75, 0);
+        ctx.lineTo(56.25, -11.25);
+        ctx.lineTo(60, 3.125);
         ctx.fill();
         ctx.beginPath();
-        ctx.moveTo(63.75, 20.625);
-        ctx.lineTo(71.25, 7.5);
-        ctx.lineTo(75, 22.5);
+        ctx.moveTo(60, 3.125);
+        ctx.lineTo(67.5, -11.25);
+        ctx.lineTo(71.25, 3.75);
         ctx.fill();
         ctx.restore();
     }
@@ -132,8 +130,8 @@ export default class Player extends ObjectGraphique {
     drawJambesDevant(ctx) {
         ctx.save();
         ctx.fillStyle = "grey";
-        ctx.fillRect(3.75, 60, -11.25, 46.875);
-        ctx.fillRect(-97.5, 60, -11.25, 46.875);
+        ctx.fillRect(0, 37.5, -11.25, 46.875);
+        ctx.fillRect(-101.25, 37.5, -11.25, 46.875);
         ctx.restore();
     }
 
@@ -141,9 +139,9 @@ export default class Player extends ObjectGraphique {
         ctx.save();
         ctx.fillStyle = "#515558";
         ctx.beginPath();
-        ctx.moveTo(-108.75, 60);
-        ctx.lineTo(-108.75, 82.5);
-        ctx.lineTo(-71.25, 60);
+        ctx.moveTo(-112.5, 37.5);
+        ctx.lineTo(-112.5, 60);
+        ctx.lineTo(-75, 37.5);
         ctx.fill();
         ctx.restore();
     }
@@ -151,14 +149,14 @@ export default class Player extends ObjectGraphique {
     drawJambesArriere1(ctx) {
         ctx.save();
         ctx.fillStyle = "black";
-        ctx.fillRect(-71.25, 60, -11.25, 46.875);
+        ctx.fillRect(-75, 37.5, -11.25, 46.875);
         ctx.restore();
     }
 
     drawJambesArriere2(ctx) {
         ctx.save();
         ctx.fillStyle = "#515558";
-        ctx.fillRect(-22.5, 60, -11.25, 46.875);
+        ctx.fillRect(-26.25, 37.5, -11.25, 46.875);
         ctx.restore();
     }
 
@@ -166,24 +164,24 @@ export default class Player extends ObjectGraphique {
         ctx.save();
         ctx.fillStyle = "black";
         ctx.beginPath();
-        ctx.moveTo(-97.5, 97.5);
-        ctx.lineTo(-86.25, 106.875);
-        ctx.lineTo(-97.5, 106.875);
+        ctx.moveTo(-101.25, 75);
+        ctx.lineTo(-90, 84.375);
+        ctx.lineTo(-101.25, 84.375);
         ctx.fill();
         ctx.beginPath();
-        ctx.moveTo(-71.25, 97.5);
-        ctx.lineTo(-60, 106.875);
-        ctx.lineTo(-71.25, 106.875);
+        ctx.moveTo(-75, 75);
+        ctx.lineTo(-63.75, 84.375);
+        ctx.lineTo(-75, 84.375);
         ctx.fill();
         ctx.beginPath();
-        ctx.moveTo(-22.5, 97.5);
-        ctx.lineTo(-11.25, 106.875);
-        ctx.lineTo(-22.5, 106.875);
+        ctx.moveTo(-26.25, 75);
+        ctx.lineTo(-15, 84.375);
+        ctx.lineTo(-26.25, 84.375);
         ctx.fill();
         ctx.beginPath();
-        ctx.moveTo(3, 97.5);
-        ctx.lineTo(15, 106.875);
-        ctx.lineTo(3, 106.875);
+        ctx.moveTo(-1.5, 75);
+        ctx.lineTo(10.5, 84.375);
+        ctx.lineTo(-1.5, 84.375);
         ctx.fill();
         ctx.restore();
     }

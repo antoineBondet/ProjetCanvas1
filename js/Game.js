@@ -4,6 +4,7 @@ import ObjetSouris from "./ObjetSouris.js";
 import { rectsOverlap } from "./collisions.js";
 import { initListeners } from "./ecouteurs.js";
 import Arrivee from "./Arrivee.js";
+import ObstacleAnime from "./ObstacleAnime.js";
 
 export default class Game {
     objetsGraphiques = [];
@@ -21,23 +22,24 @@ export default class Game {
     async init(canvas) {
         this.ctx = this.canvas.getContext("2d");
 
-        this.player = new Player(100, 100);
+        this.player = new Player(175, 100);
         this.objetsGraphiques.push(this.player);
 
         // Un objert qui suite la souris, juste pour tester
         this.objetSouris = new ObjetSouris(200, 200, 25, 25, "orange");
         this.objetsGraphiques.push(this.objetSouris);
-
-
+        
         // On cree deux obstacles
         let obstacle1 = new Obstacle(350, 0, 40, 500, "green");
         this.objetsGraphiques.push(obstacle1);
         
-
-        
         // On ajoute la sortie
         this.sortie = new Arrivee(600, 100);
         this.objetsGraphiques.push(this.sortie);
+        
+        
+
+            
 
         // On initialise les écouteurs de touches, souris, etc.
         initListeners(this.inputStates, this.canvas);
@@ -89,12 +91,17 @@ export default class Game {
         this.objetSouris.x = this.inputStates.mouseX;
         this.objetSouris.y = this.inputStates.mouseY;
 
-        // On regarde si le joueur a atteint la sortie
-        
-       
+        // on met à jour tous les objets
+        this.updateAllObjects();
+    }
 
-        
-
+    updateAllObjects() {
+        this.objetsGraphiques.forEach(obj => {
+            if (obj instanceof ObstacleAnime) {
+                obj.update(this.canvas);
+            }
+        });
+        this.testCollisionPlayerObstacles();
     }
 
     movePlayer() {
@@ -134,11 +141,11 @@ export default class Game {
 
     testCollisionPlayerBordsEcran() {
         // Raoppel : le x, y du joueur est en son centre, pas dans le coin en haut à gauche!
-        if(this.player.x - this.player.w/2 < 0) {
+        if(this.player.x - this.player.w/1.8 < 0) {
             // On stoppe le joueur
             this.player.vitesseX = 0;
             // on le remet au point de contaxct
-            this.player.x = this.player.w/2;
+            this.player.x = this.player.w;
         }
         if(this.player.x + this.player.w/2 > this.canvas.width) {
             this.player.vitesseX = 0;
@@ -160,10 +167,10 @@ export default class Game {
 
     testCollisionPlayerObstacles() {
         this.objetsGraphiques.forEach(obj => {
-            if(obj instanceof Obstacle) {
-                if(rectsOverlap(this.player.x-this.player.w/2, this.player.y - this.player.h/2, this.player.w, this.player.h, obj.x, obj.y, obj.w, obj.h)) {
+            if(obj instanceof Obstacle || obj instanceof ObstacleAnime) {
+                if(rectsOverlap(this.player.x - this.player.w / 2, this.player.y - this.player.h / 2, this.player.w, this.player.h, obj.x, obj.y, obj.w, obj.h)) {
                     // collision
-
+    
                     // ICI TEST BASIQUE QUI ARRETE LE JOUEUR EN CAS DE COLLIION.
                     // SI ON VOULAIT FAIRE MIEUX, ON POURRAIT PAR EXEMPLE REGARDER OU EST LE JOUEUR
                     // PAR RAPPORT A L'obstacle courant : il est à droite si son x est plus grand que le x de l'obstacle + la largeur de l'obstacle
@@ -180,28 +187,23 @@ export default class Game {
                 }
             }
         });
-        // Tutilise les fonctions de arriver.js pour tester si le joueur est arrivé à la sortie
-        
-
-
-    
     }
 
     // Fonction qui teste si le joueur est arrivé à la sortie
-        testSortie() {
-            if (this.sortie) {  // Vérifie si la sortie existe
-                if (rectsOverlap(
-                    this.player.x - this.player.w / 2, this.player.y - this.player.h / 2,
-                    this.player.w, this.player.h,
-                    this.sortie.x, this.sortie.y, this.sortie.w, this.sortie.h
-                )) {
-                    console.log("Le joueur a fini le niveau !");
-                    
-                    this.niveauSuivant(this.Niv);
-                    
-                }
+    testSortie() {
+        if (this.sortie) {  // Vérifie si la sortie existe
+            if (rectsOverlap(
+                this.player.x - this.player.w / 2, this.player.y - this.player.h / 2,
+                this.player.w, this.player.h,
+                this.sortie.x, this.sortie.y, this.sortie.w, this.sortie.h
+            )) {
+                console.log("Le joueur a fini le niveau !");
+                
+                this.niveauSuivant(this.Niv);
+                
             }
         }
+    }
     
     niveauSuivant(Niv) {
         this.Niv++;
@@ -229,11 +231,98 @@ export default class Game {
             this.player.y = 100;
             this.sortie = new Arrivee(650, 600);
             this.objetsGraphiques.push(this.sortie);
-            let obstacle31 = new Obstacle(230, 0, 40, 600, "violet");
+            let obstacle31 = new Obstacle(250, 0, 40, 600, "violet");
             this.objetsGraphiques.push(obstacle31);
             let obstacle32 = new Obstacle(510, 200, 40, 600, "violet");
             this.objetsGraphiques.push(obstacle32);
             break;
+            case 4 : 
+            // niveau 4 avec obstacles animés
+            this.player.x = 100;
+            this.player.y = 100;
+            this.sortie = new Arrivee(650, 600);
+            this.objetsGraphiques.push(this.sortie);
+            let obstacle41 = new ObstacleAnime(300, 0, 40, 300, "violet", 0, 1, "rebond");
+            this.objetsGraphiques.push(obstacle41);
+            let obstacle42 = new ObstacleAnime(510, 190, 40, 300, "violet", 0, 2, "rebond");
+            this.objetsGraphiques.push(obstacle42);
+            break;
+            case 5 :
+            // niveau 5 avec obstacles animés et obstacles statiques
+            this.player.x = 100;
+            this.player.y = 100;
+            this.sortie = new Arrivee(650, 700);
+            this.objetsGraphiques.push(this.sortie);
+            let obstacle51 = new Obstacle(0, 250, 500, 50, "blue");
+            this.objetsGraphiques.push(obstacle51);
+            let obstacle52 = new Obstacle(750, 250, 100, 50, "blue");
+            this.objetsGraphiques.push(obstacle52);
+            let obstacle53 = new Obstacle(350, 550, 500, 50, "blue");
+            this.objetsGraphiques.push(obstacle53);
+            let obstacle54 = new Obstacle(0, 550, 100, 50, "blue");
+            this.objetsGraphiques.push(obstacle54);
+            let obstacle55 = new ObstacleAnime(250, 0, 40, 300, "violet", 0, 1, "rebond");
+            this.objetsGraphiques.push(obstacle55);
+            let obstacle56 = new ObstacleAnime(510, 190, 40, 300, "violet", 0, 1, "rebond");
+            this.objetsGraphiques.push(obstacle56);
+            break;
+            case 6 :
+            // niveau 6 avec obstacles différent du niveau 5(les coordonnées, taille, couleur peuvent changées) avec obstacles animés et obstacles statiques
+            this.player.x = 100;
+            this.player.y = 100;
+            this.sortie = new Arrivee(650, 700);
+            this.objetsGraphiques.push(this.sortie);
+            let obstacle61 = new Obstacle(250, 0, 40, 600, "violet");
+            this.objetsGraphiques.push(obstacle61);
+            let obstacle62 = new Obstacle(510, 200, 40, 600, "violet");
+            this.objetsGraphiques.push(obstacle62);
+            let obstacle63 = new ObstacleAnime(0, 300, 250, 40, "blue", 1, 0, "rebond");
+            this.objetsGraphiques.push(obstacle63);
+            let obstacle64 = new ObstacleAnime(400, 550, 250, 40, "blue", 1, 0, "rebond");
+            this.objetsGraphiques.push(obstacle64);
+
+
+            break;
+            default:
+            console.log("Fin du jeu");
+            this.objetsGraphiques = this.objetsGraphiques.filter(obj => obj instanceof Player || obj instanceof ObjetSouris);
+            this.player.x = 100;
+            this.player.y = 100;
+            this.sortie = new Arrivee(650, 700);
+            this.objetsGraphiques.push(this.sortie);
+            // ecriture du mot "END" avec des obstacles
+            // "E"
+            let obstacle711 = new Obstacle(200, 300, 75, 25, "red");
+            this.objetsGraphiques.push(obstacle711);
+            let obstacle712 = new Obstacle(200, 350, 75, 25, "red");
+            this.objetsGraphiques.push(obstacle712);
+            let obstacle713 = new Obstacle(200, 400, 75, 25, "red");
+            this.objetsGraphiques.push(obstacle713);
+            let obstacle714 = new Obstacle(200, 300, 25, 125, "red");
+            this.objetsGraphiques.push(obstacle714);
+            // "N"
+            let obstacle721 = new Obstacle(300, 325, 50, 25, "red");
+            this.objetsGraphiques.push(obstacle721);
+            let obstacle722 = new Obstacle(375, 375, 50, 25, "red");
+            this.objetsGraphiques.push(obstacle722);
+            let obstacle723 = new Obstacle(300, 300, 25, 125, "red");
+            this.objetsGraphiques.push(obstacle723);
+            let obstacle724 = new Obstacle(400, 300, 25, 125, "red");
+            this.objetsGraphiques.push(obstacle724);
+            let obstacle725 = new Obstacle(350, 350, 25, 25, "red");
+            this.objetsGraphiques.push(obstacle725);
+            // "D"
+            let obstacle731 = new Obstacle(450, 300, 25, 125, "red");
+            this.objetsGraphiques.push(obstacle731);
+            let obstacle732 = new Obstacle(450, 300, 75, 25, "red");
+            this.objetsGraphiques.push(obstacle732);
+            let obstacle733 = new Obstacle(450, 400, 75, 25, "red");
+            this.objetsGraphiques.push(obstacle733);
+            let obstacle734 = new Obstacle(525, 325, 25, 75, "red");
+            this.objetsGraphiques.push(obstacle734);
+
+
+        }
+        
     }
-}
 }
