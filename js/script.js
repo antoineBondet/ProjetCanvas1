@@ -1,4 +1,4 @@
-import Game from "./game.js";
+import Game from "./Game.js";
 
 // Bonne pratique : avoir une fonction appelée une fois
 // que la page est prête, que le DOM est chargé, etc.
