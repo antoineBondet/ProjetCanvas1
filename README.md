@@ -22,13 +22,16 @@ Un jeu en HTML5 Canvas mettant en scène un personnage jouable, des obstacles et
 
 ## 📜 Instructions d'installation et d'utilisation
 
-Clonez ce dépôt :
+- Clonez ce dépôt :
 
 1. ``` git clone https://github.com/antoineBondet/ProjetCanvas1.git ```
 
 2. Ouvrez le fichier index.html dans un navigateur compatible avec HTML5.
 
 3. Jouez et amusez-vous ! 🎮
+
+- Jouer en ligne
+[Antoine Bondet - Canvas](https://antoinebondet-canvas.vercel.app/)
 
 ## 📚 Ressources utiles
 
