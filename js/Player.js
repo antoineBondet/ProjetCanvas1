@@ -16,11 +16,7 @@ export default class Player extends ObjectGraphique {
         ctx.translate(this.x, this.y);
         
         ctx.rotate(this.angle);
-        // on recentre le monstre. Par défaut le centre de rotation est dans le coin en haut à gauche
-        // du rectangle, on décale de la demi largeur et de la demi hauteur pour 
-        // que le centre de rotation soit au centre du rectangle.
-        // Les coordonnées x, y du monstre sont donc au centre du rectangle....
-
+        
         this.drawTete(ctx);
         this.drawBouches(ctx);
         this.drawOreilles(ctx);
@@ -104,7 +100,7 @@ export default class Player extends ObjectGraphique {
         ctx.fillStyle = "black";
         ctx.beginPath();
         ctx.moveTo(0, 18.75);
-        ctx.rotate(0.3 + Math.sin(Date.now() * 0.01) * 0.1);
+        ctx.rotate(0.3+ Math.sin(Date.now() * 0.01) * 0.1);
         ctx.fillStyle = "grey";
         ctx.fillRect(3.75, 7.5, 75, 18.75);
         this.drawDents(ctx);
